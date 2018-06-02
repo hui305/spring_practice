@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hui305.mapper.OrderMapper" >
+    <resultMap id="BaseResultMap" type="com.hui305.domain.Order" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+        <result column="order_name" property="orderName" jdbcType="VARCHAR" />
+        <result column="amount" property="amount" jdbcType="DECIMAL"/>
+        <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, order_no, order_name, amount, add_time
+    </sql>
+
+    <select id="queryOrders" resultMap="BaseResultMap"  >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM orders
+    </select>
+
+    <select id="queryOrderByNo" parameterType="java.lang.String" resultMap="BaseResultMap" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM orders
+        WHERE order_no = #{orderNo}
+    </select>
+
+    <insert id="addOrder" parameterType="Order" >
+        INSERT INTO orders
+        (order_no,order_name,amount,add_time)
+        VALUES
+        (#{orderNo}, #{orderName}, #{amount}, #{addTime})
+    </insert>
+
+    <delete id="delOrder" parameterType="java.lang.Integer" >
+        DELETE FROM
+        orders
+        WHERE
+        id =#{id}
+    </delete>
+
+    <update id="updateOrder" parameterType="Order" >
+        UPDATE orders
+        SET order_name=#{orderName}
+        WHERE
+        id=#{id}
+    </update>
+
+</mapper>

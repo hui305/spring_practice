@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.249.134:3306/events?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.hui305.domain
+
