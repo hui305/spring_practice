@@ -4,6 +4,7 @@ import com.hui305.intercepter.TicketIntercepter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -18,7 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry)
     {
-        registry.addInterceptor(ticketIntercepter).addPathPatterns("/**");
+            registry.addInterceptor(ticketIntercepter).addPathPatterns("/**");
 
         // 多个拦截器组成一个拦截器链
         // addPathPatterns 用于添加拦截规则
@@ -26,4 +27,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 //        registry.addInterceptor(SpringContextHolder.getBean(TicketIntercepter.class)).addPathPatterns("/**");
 //        super.addInterceptors(registry);
     }
+
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("/index");
+        registry.addViewController("/index").setViewName("/index");
+        registry.addViewController("/websocket").setViewName("/websocket");
+    }
 }
+
