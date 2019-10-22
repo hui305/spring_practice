@@ -1,0 +1,5 @@
+# 线程池配置
+taskexecutor:
+  corePoolSize: 5
+  maxPoolSize: 10
+  queueCapacity: 25
