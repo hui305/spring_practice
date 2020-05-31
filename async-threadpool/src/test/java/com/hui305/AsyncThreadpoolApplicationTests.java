@@ -1,16 +1,13 @@
 package com.hui305;
 
 import com.hui305.service.Task;
-import org.junit.Test;
 
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.concurrent.Future;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class AsyncThreadpoolApplicationTests {
 
