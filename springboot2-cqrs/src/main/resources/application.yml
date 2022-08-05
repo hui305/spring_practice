@@ -1,0 +1,60 @@
+spring:
+  shardingsphere:
+    mode:
+      type: Memory                                     # 内存模式，元数据保存在当前进程中
+    datasource:
+#      common:
+#        type: com.zaxxer.hikari.HikariDataSource
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+      names: master,slave                              # 数据源名称，这里有两个
+      master:                                          # 跟上面的数据源对应
+        type: com.zaxxer.hikari.HikariDataSource    # 连接池
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.209.129:3306/test?serverTimezone=CTT&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true          # 连接url
+        username: root
+        password: sch@123
+      slave:                                           # 跟上面的数据源对应
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.209.130:3307/test?serverTimezone=CTT&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+        username: root
+        password: slave@123
+
+    masterslave:
+      load-balance-algorithm-type: round_robin
+      name: ms
+      master-data-source: master
+      slave-data-source-names: slave
+    rules:
+      readwrite-splitting:                             # 读写分离规则
+        data-sources:                                  # 数据源配置
+          random:                                      # 这个名字随便起
+            type: Static                               # 静态类型
+            load-balancer-name: round_robin            # 负载均衡算法名字
+            props:
+              write-data-source-name: master           # 写数据源
+              read-data-source-names: slave            # 读数据源
+        load-balancers:                                # 负载均衡配置
+          round_robin:                                 # 跟上面负载均衡算法的名字对应
+            type: ROUND_ROBIN                          # 负载均衡算法
+#    rules:
+#       readwrite-splitting:
+#          data-sources:
+#         load-balancers:
+#          roundRobin:
+#             type: ROUND_ROBIN
+#         master-slave:
+#         props:
+#             auto-aware-data-source-name: master
+#             load-balancer-name: roundRobin
+#             read-data-source-names: slave
+#             write-data-source-name: master
+#           type: Static
+    props:
+      sql-show: true                                   # 打印SQL
+
+mybatis-plus:
+  configuration:
+        map-underscore-to-camel-case: true
+        use-generated-keys: true
+  type-aliases-package:
